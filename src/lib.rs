@@ -549,6 +549,13 @@ impl Capture<Inactive> {
         self
     }
 
+    /// Set immediate mode on or off. By default, this is off.
+    #[cfg(not(windows))]
+    pub fn immediate(self, to: bool) -> Capture<Inactive> {
+        unsafe { raw::pcap_set_immediate_mode(*self.handle, to as _) };
+        self
+    }
+
     /// Set the buffer size for incoming packet data.
     ///
     /// The default is 1000000. This should always be larger than the snaplen.
